@@ -13,6 +13,7 @@ else
     git commit -m "$1"
     git push
     cd ../repos_git/42cursus_push_swap
+    cp -r ../../push_swap/* .
     git add .
     git commit -m "$1"
     git push

@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/06 22:12:12 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/01/05 16:25:41 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/01/27 17:31:40 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void				ft_lstclear(t_list **lst, void (*del)(void*));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
+t_list				*ft_lstcpy(t_list *stack);
 
 long long int		ft_atol(const char *nptr);
 double				ft_atod(char *str);

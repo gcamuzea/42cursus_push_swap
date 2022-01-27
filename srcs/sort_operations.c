@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 19:59:28 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/01/22 16:27:20 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/01/27 17:30:31 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void	sort_three(t_list **stack_a, t_list **results)
 	state_function[2] = sort_state_2;
 	state_function[3] = sort_state_3;
 	state_function[4] = sort_state_4;
-	if (!is_sorted(*stack_a, 1))
-		state_function[get_sort_state(*stack_a)](stack_a, results);
+	state_function[get_sort_state(*stack_a)](stack_a, results);
 }
 
 t_list_info	*find_smallest(t_list *stack)
@@ -117,8 +116,6 @@ int	get_closest_pos(t_list **stack, int number, int stacksize)
 	return (closest_pos);
 }
 
-
-
 // NEED -> free stack b, info
 void	sort_upto_five(t_list **stack_a, t_list **results, int size)
 {
@@ -155,5 +152,7 @@ void	sort_upto_five(t_list **stack_a, t_list **results, int size)
 			}
 		}
 		pretty_print(*stack_a, stack_b);
+		printf("test lstcpy\n");
+		pretty_print(ft_lstcpy(*stack_a), stack_b);
 	}
 }
