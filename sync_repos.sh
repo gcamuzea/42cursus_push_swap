@@ -1,19 +1,19 @@
 #!/bin/bash
 
-vogsphere_folder="~/cursus42/push_swap";
-git_folder="~/cursus42/repos_git/42cursus_push_swap";
+vogsphere_folder="../../push_swap";
+git_folder="../repos_git/42cursus_push_swap";
 
 if [ !$1 ]
 then
     echo "script needs an argument for commit message";
 else
-    cd ../../push_swap
+    cd $vogsphere_folder
     pwd
     git add .
     git commit -m "$1"
     git push
-    cd ../repos_git/42cursus_push_swap
-    cp -r ../../push_swap/* .
+    cd $git_folder
+    cp -r $vogsphere_folder/* .
     git add .
     git commit -m "$1"
     git push
