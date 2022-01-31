@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 12:05:07 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/01/07 12:03:12 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/01/31 04:38:41 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@ void	pretty_print(t_list *stack_a, t_list *stack_b)
 	{
 		// DEBUG__print_lst(stack_a, 'd');
 		// printf("coucou ?\n");
+		printf("| ");
 		if (stack_a)
 		{
-			printf("| %d", *(int *)stack_a->content);
+			printf("%d", *(int *)stack_a->content);
 			stack_a = stack_a->next;
 		}
 		printf("\t\t");

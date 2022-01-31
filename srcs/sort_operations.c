@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 19:59:28 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/01/31 01:54:05 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/01/31 05:26:39 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	sort_three(t_list **stack_a, t_list **results)
 {
 	static void	(*state_function[5])(t_list **, t_list **);
 	
+	if (is_sorted(*stack_a, 1))
+		return ;
 	state_function[0] = sort_state_0;
 	state_function[1] = sort_state_1;
 	state_function[2] = sort_state_2;
@@ -55,10 +57,23 @@ t_list_info	*find_smallest(t_list *stack)
 	return (info);
 }
 
-// 1 for rotate, 0 for reverse
-void	put_on_top(t_list_info *info, t_list **stack, t_list **results, int mode)
+int		get_position(t_list *stack, int number)
 {
-	while (*(int *)(*stack)->content != info->smallest) 
+	int	position;
+
+	position = 0;
+	while (stack && *(int *)stack->content != number)
+	{
+		position++;
+		stack = stack->next;
+	}
+	return (position);
+}
+
+// 1 for rotate, 0 for reverse
+void	put_on_top(int biggest, t_list **stack, t_list **results, int mode)
+{
+	while (*(int *)(*stack)->content != biggest) 
 	{
 		if (mode == 1)
 		{
@@ -251,7 +266,6 @@ int	find_streaks(t_list *stack, t_streak *streak_s)
 
 	streak_len = 0;
 	iterator = stack;
-	pretty_print(stack, NULL);
 	while (iterator->next)
 	{
 		next_n = *(int *)iterator->next->content;
@@ -271,8 +285,47 @@ int	find_streaks(t_list *stack, t_streak *streak_s)
 	return (0);
 }
 
+int		stack_ready(t_list *stack, t_closest *closest)
+{
+	if (!stack)
+		return (1);
+	if (*(int *)stack->content == closest->c_inferior)
+		return (1);
+	return (0);
+}
+
+void	prepare_stack(t_list **stack_b, t_list **results, int number)
+{
+	int	n_index;
+
+	if (!*stack_b)
+		return ;
+	n_index = get_position(*stack_b, number);
+	if (n_index > ft_lstsize(*stack_b) / 2)
+	{
+		while (*(int *)(*stack_b)->content != number)
+		{
+			reverse_rotate(stack_b);
+			ft_lstadd_back(results, ft_lstnew("rrb"));
+		}
+	}
+	else
+	{
+		while (*(int *)(*stack_b)->content != number)
+		{
+			rotate(stack_b);
+			ft_lstadd_back(results, ft_lstnew("rrb"));
+		}
+	}
+}
+
 void	push_streak(t_streak *streak, t_list **stack_a, t_list **stack_b, t_list **results)
 {
+	// need to prepare stack_b to receive the streak
+	printf("STARTING PUSH STREAK ON %d\n", streak->starting_number);
+	t_closest	closest;
+	find_closest(&closest, *stack_b, streak->starting_number);
+	printf("%d:\tclosest in stack b is %d\n", streak->starting_number, closest.c_inferior);
 	while (*(int *)(*stack_a)->content != streak->starting_number)
 	{
 		rotate(stack_a);
@@ -280,6 +333,14 @@ void	push_streak(t_streak *streak, t_list **stack_a, t_list **stack_b, t_list **
 	}
 	while (streak->streak_len--)
 	{
+		find_closest(&closest, *stack_b, *(int *)(*stack_a)->content);
+		printf("%d:\tclosest in stack b is %d\n", *(int *)(*stack_a)->content, closest.c_inferior);
+		if (!stack_ready(*stack_b, &closest))
+		{
+			printf("stack not ready !!\n");
+			prepare_stack(stack_b, results, closest.c_inferior);
+			// put_on_top(closest.c_inferior, stack_b, results, get_rotate_mode(get_position(*stack_b, closest.c_inferior), ft_lstsize(*stack_b)));
+		}
 		push(stack_a, stack_b);
 		ft_lstadd_back(results, ft_lstnew("pb"));
 	}
@@ -300,7 +361,7 @@ void	pull_b(t_list **stack_a, t_list **stack_b, t_list **results)
 
 void	sort_above_five(t_list **stack_a, t_list **results, int size)
 {
-	(void)results;(void)size;
+	(void)size;
 	t_closest	closest;
 	t_list		*iterator;
 	t_streak	streak;
@@ -310,9 +371,10 @@ void	sort_above_five(t_list **stack_a, t_list **results, int size)
 	stack_b = NULL;
 	while (iterator)
 	{
-		if (is_sorted(*stack_a, 1))
+		if (is_sorted(*stack_a, 1) && ft_lstsize(*stack_a) == size)
 		{
 			printf("done\n");
+			// pretty_print(*stack_a, stack_b);
 			return ;
 		}
 		pretty_print(*stack_a, stack_b);
@@ -321,25 +383,37 @@ void	sort_above_five(t_list **stack_a, t_list **results, int size)
 			find_closest(&closest, *stack_a, *(int *)iterator->content);
 			if (find_streaks(iterator, &streak))
 			{
-				printf("pushing streak\n");
-				printf("closest streak is %d long, starting on number %d\n", streak.streak_len, streak.starting_number);
+				printf("\n------------\npushing streak\n");
+				pretty_print(*stack_a, stack_b);
+				// printf("closest streak is %d long, starting on number %d\n", streak.streak_len, streak.starting_number);
 				push_streak(&streak, stack_a, &stack_b, results);
+				printf("\n------------\ndone\n");
+				pretty_print(*stack_a, stack_b);
 				iterator = *stack_a;
 			}
 			else
 			{
-				
+				t_list_info *bla = find_smallest(*stack_a);
+				// printf("biggest is %d, on position %d\n", bla->smallest, bla->smallest_pos);
+				put_on_top(bla->smallest, stack_a, results, get_rotate_mode(bla->smallest_pos, ft_lstsize(*stack_a)));
+				push(stack_a, &stack_b);
+				ft_lstadd_back(results, ft_lstnew("pb"));
+				// if (ft_lstsize(stack_b) > 1)
+				// {
+				// 	rotate(&stack_b);
+				// 	ft_lstadd_back(results, ft_lstnew("rb"));
+				// }
+				iterator = *stack_a;
 			}
 			iterator = iterator->next;
 		}
 		else if (ft_lstsize(*stack_a) == 3)
 		{
-			printf("sorting 3\n");
+			// printf("sorting 3\n");
 			sort_three(stack_a, results);
-			pretty_print(*stack_a, stack_b);
+			// pretty_print(*stack_a, stack_b);
 			pull_b(stack_a, &stack_b, results);
-			pretty_print(*stack_a, stack_b);
+			// pretty_print(*stack_a, stack_b);
 		}
 	}
-	printf("end\n");
 }

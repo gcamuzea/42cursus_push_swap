@@ -6,7 +6,7 @@
 #    By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/15 02:21:09 by gucamuze          #+#    #+#              #
-#    Updated: 2022/01/06 17:32:42 by gucamuze         ###   ########.fr        #
+#    Updated: 2022/01/31 03:50:22 by gucamuze         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,7 +98,7 @@ fclean:		clean
 re:			fclean all
 
 norminette:
-			norminette srcs libft includes
+			norminette srcs libft includes			
 
 .PHONY:	all clean fclean re norminette
 

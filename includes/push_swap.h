@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 15:55:23 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/01/31 01:55:02 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/01/31 03:21:33 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PUSH_SWAP_H
 
 # include "libft.h"
-# define PRINT_ERR ft_putstr_fd("Error\n", 1)
+# define PRINT_ERR printf("Error\n")
 
 typedef struct s_list_info
 {
