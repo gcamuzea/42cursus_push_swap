@@ -6,13 +6,13 @@
 #    By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/15 02:21:09 by gucamuze          #+#    #+#              #
-#    Updated: 2022/01/31 03:50:22 by gucamuze         ###   ########.fr        #
+#    Updated: 2022/01/31 23:39:22 by gucamuze         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 EXEC_NAME		=	push_swap
-CC				=	clang -Wall -Wextra -Werror
+CC				=	clang -Wall -Wextra -Werror -g
 RM				=	rm -f
 
 SRCS_PATH		=	./srcs/
@@ -31,7 +31,7 @@ SRC_FILES		=	${SRCS_PATH}main.c \
 					${SRCS_PATH}push_swap.c 
 SRC_OFILES		= 	$(SRC_FILES:.c=.o)
 
-LIBFT_OFILES		=	$(LIBFT_PATH)ft_memset.o \
+LIBFT_OFILES	=	$(LIBFT_PATH)ft_memset.o \
 					$(LIBFT_PATH)ft_bzero.o \
 					$(LIBFT_PATH)ft_memcpy.o \
 					$(LIBFT_PATH)ft_memccpy.o \
