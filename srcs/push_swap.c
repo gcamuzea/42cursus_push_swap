@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 19:02:25 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/01/07 12:12:02 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/01/30 21:33:16 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	push_swap(t_list **stack_a, int size)
 		sort_three(stack_a, results);
 	else if (size <= 5)
 		sort_upto_five(stack_a, results, size);
+	else
+		sort_above_five(stack_a, results, size);
 	// else
 	// 	sort_big(*stack_a, size);
 	// printf("final stack =>\n");

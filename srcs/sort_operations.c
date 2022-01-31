@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 19:59:28 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/01/27 17:30:31 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/01/31 01:54:05 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,4 +155,191 @@ void	sort_upto_five(t_list **stack_a, t_list **results, int size)
 		printf("test lstcpy\n");
 		pretty_print(ft_lstcpy(*stack_a), stack_b);
 	}
+}
+
+int		is_the_biggest(t_list *stack, int number)
+{
+	while (stack)
+	{
+		if (*(int *)stack->content > number)
+			return (0);
+		stack = stack->next;
+	}
+	return (1);
+}
+
+int		is_the_smallest(t_list *stack, int number)
+{
+	while (stack)
+	{
+		if (*(int *)stack->content < number)
+			return (0);
+		stack = stack->next;
+	}
+	return (1);
+}
+
+/**
+ *	MODE 1 for closest superior, mode 0 for closest inferior
+**/
+int		get_closest(t_list *stack, int number, int mode)
+{
+	int	closest;
+
+	closest = number;
+	if (mode)
+	{
+		while (stack)
+		{
+			if (*(int *)stack->content > number)
+				if ((closest == number && *(int *)stack->content > number)
+					|| (closest != number && *(int *)stack->content < closest))
+					closest = *(int *)stack->content;
+			stack = stack->next;
+		}
+	}
+	else
+	{
+		while (stack)
+		{
+			if (*(int *)stack->content < number)
+				if ((closest == number && *(int *)stack->content < number)
+					|| (closest != number && *(int *)stack->content > closest))
+					closest = *(int *)stack->content;
+			stack = stack->next;
+		}
+	}
+	return (closest);
+}
+
+void	find_closest(t_closest *closest, t_list *stack, int number)
+{
+	closest->c_inferior = number;
+	closest->c_superior = number;
+	if (is_the_biggest(stack, number))
+		closest->c_superior = number;
+	else
+		closest->c_superior = get_closest(stack, number, 1);
+	if (is_the_smallest(stack, number))
+		closest->c_inferior = number;
+	else
+		closest->c_inferior = get_closest(stack, number, 0);
+}
+
+int	get_streak_len(t_list *stack)
+{
+	t_closest	closest;
+	int			streak_len;
+
+	streak_len = -1;
+	find_closest(&closest, stack, *(int *)stack->content);
+	while (stack->next && *(int *)stack->next->content == closest.c_superior)
+	{
+		streak_len++;
+		stack = stack->next;
+		find_closest(&closest, stack, *(int *)stack->content);
+	}
+	return (streak_len);
+}
+
+int	find_streaks(t_list *stack, t_streak *streak_s)
+{
+	int			streak_len;
+	t_closest	closest;
+	int			next_n;
+	t_list		*iterator;
+
+	streak_len = 0;
+	iterator = stack;
+	pretty_print(stack, NULL);
+	while (iterator->next)
+	{
+		next_n = *(int *)iterator->next->content;
+		find_closest(&closest, iterator, *(int *)iterator->content);
+		if (next_n == closest.c_superior)
+		{
+			streak_len = get_streak_len(iterator);
+			if (streak_len > 2)
+			{
+				streak_s->starting_number = *(int *)iterator->content;
+				streak_s->streak_len = streak_len;
+				return (1);
+			}
+		}
+		iterator = iterator->next;
+	}
+	return (0);
+}
+
+void	push_streak(t_streak *streak, t_list **stack_a, t_list **stack_b, t_list **results)
+{
+	while (*(int *)(*stack_a)->content != streak->starting_number)
+	{
+		rotate(stack_a);
+		ft_lstadd_back(results, ft_lstnew("ra"));
+	}
+	while (streak->streak_len--)
+	{
+		push(stack_a, stack_b);
+		ft_lstadd_back(results, ft_lstnew("pb"));
+	}
+	// pretty_print(*stack_a, *stack_b);
+	streak->streak_len = 0;
+	streak->starting_number = 0;
+}
+
+void	pull_b(t_list **stack_a, t_list **stack_b, t_list **results)
+{
+	printf("pull b\n");
+	while (*stack_b)
+	{
+		push(stack_b, stack_a);
+		ft_lstadd_back(results, ft_lstnew("pa"));
+	}
+}
+
+void	sort_above_five(t_list **stack_a, t_list **results, int size)
+{
+	(void)results;(void)size;
+	t_closest	closest;
+	t_list		*iterator;
+	t_streak	streak;
+	t_list		*stack_b;
+
+	iterator = *stack_a;
+	stack_b = NULL;
+	while (iterator)
+	{
+		if (is_sorted(*stack_a, 1))
+		{
+			printf("done\n");
+			return ;
+		}
+		pretty_print(*stack_a, stack_b);
+		if (ft_lstsize(*stack_a) > 3)
+		{
+			find_closest(&closest, *stack_a, *(int *)iterator->content);
+			if (find_streaks(iterator, &streak))
+			{
+				printf("pushing streak\n");
+				printf("closest streak is %d long, starting on number %d\n", streak.streak_len, streak.starting_number);
+				push_streak(&streak, stack_a, &stack_b, results);
+				iterator = *stack_a;
+			}
+			else
+			{
+				
+			}
+			iterator = iterator->next;
+		}
+		else if (ft_lstsize(*stack_a) == 3)
+		{
+			printf("sorting 3\n");
+			sort_three(stack_a, results);
+			pretty_print(*stack_a, stack_b);
+			pull_b(stack_a, &stack_b, results);
+			pretty_print(*stack_a, stack_b);
+		}
+	}
+	printf("end\n");
 }

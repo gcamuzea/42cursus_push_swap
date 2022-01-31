@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 15:55:23 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/01/06 19:02:42 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/01/31 01:55:02 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,26 @@
 # define PUSH_SWAP_H
 
 # include "libft.h"
-# define PRINT_ERR printf("Error\n")
+# define PRINT_ERR ft_putstr_fd("Error\n", 1)
 
 typedef struct s_list_info
 {
     int smallest;
     int smallest_pos;
 }   t_list_info;
+
+typedef struct s_closest
+{
+    int c_superior;
+    int c_inferior;
+}   t_closest;
+
+typedef struct s_streak
+{
+    int starting_number;
+    int streak_len;
+}   t_streak;
+
 
 void	print_test(void);
 // checks
@@ -36,6 +49,7 @@ void	reverse_rotate(t_list **stack);
 void	sort_two(t_list *stack_a, t_list **results);
 void    sort_three(t_list **stack_a, t_list **results);
 void	sort_upto_five(t_list **stack_a, t_list **results, int size);
+void	sort_above_five(t_list **stack_a, t_list **results, int size);
 // sort_state_operations
 void	sort_state_0(t_list **stack_a,t_list **results);
 void	sort_state_1(t_list **stack_a,t_list **results);
