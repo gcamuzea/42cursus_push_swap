@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 19:02:25 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/01 00:38:28 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/01 03:26:47 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	push_swap(t_list **stack_a, int size)
 	results = malloc(sizeof(t_list **));
 	if (!results)
 		exit(0);
-	// printf("Sorting list of %d\n", size);
+	printf("Sorting list of %d\n", size);
 	// DEBUG__print_lst(*stack_a, 'd');
 	if (size == 2)
 		sort_two(*stack_a, results);
@@ -28,7 +28,9 @@ void	push_swap(t_list **stack_a, int size)
 	else if (size <= 5)
 		sort_upto_five(stack_a, results, size);
 	else if (size <= 100)
-		sort_upto_hundred(stack_a, results, size);
+		new_sort_hundred(stack_a, results, size);
+	else
+		printf("shorturl.at/ikyUX\n");
 	// else
 	// 	sort_big(*stack_a, size);
 	// printf("final stack =>\n");

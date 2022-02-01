@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 15:55:23 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/01 00:23:18 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/01 01:34:32 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ typedef struct s_closest
     int c_superior;
     int c_inferior;
 }   t_closest;
+
+typedef struct s_chunks
+{
+    int ***chunks;
+    int first_index;
+    int second_index;
+}   t_chunks;
 
 typedef struct s_streak
 {
@@ -51,6 +58,7 @@ void	sort_two(t_list *stack_a, t_list **results);
 void    sort_three(t_list **stack_a, t_list **results);
 void	sort_upto_five(t_list **stack_a, t_list **results, int size);
 void	sort_upto_hundred(t_list **stack_a, t_list **results, int size);
+void	new_sort_hundred(t_list **stack_a, t_list **results, int size);
 // sort_state_operations
 void	sort_state_0(t_list **stack_a,t_list **results);
 void	sort_state_1(t_list **stack_a,t_list **results);

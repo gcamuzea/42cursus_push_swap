@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 19:59:28 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/01 00:52:42 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/01 04:12:17 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -365,72 +365,273 @@ void	pull_b(t_list **stack_a, t_list **stack_b, t_list **results)
 	}
 }
 
-void	sort_upto_hundred(t_list **stack_a, t_list **results, int size)
+long long int	**create_chunks(void)
 {
-	(void)size;
-	t_closest	closest;
-	t_list		*iterator;
-	t_streak	streak;
-	t_list		*stack_b;
+	long long int	**chunks;
+	int				c;
+	int				i;
 
+	chunks = malloc(5 * sizeof(long long int *));
+	if (!chunks)
+		return (0);
+	c = -1;
+	while (++c < 5)
+	{
+		chunks[c] = malloc(20 * sizeof(long long int));
+		if (!chunks[c])
+			return (0);
+		i = -1;
+		while (++i < 20)
+			chunks[c][i] = LLONG_MAX;
+	}
+	return (chunks);
+}
+
+void	populate_chunks(long long int **chunks, t_list **stack)
+{
+	t_list		*iterator;
+	t_closest	closest;
+	int			c;
+	int			i;
+
+	iterator = *stack;
+	c = -1;
+	while (++c < 5)
+	{
+		i = -1;
+		while (++i < 20)
+		{
+			if (c == 0 && i == 0)
+				chunks[c][i] = find_smallest(*stack)->smallest;
+			else if (i == 0)
+			{
+				find_closest(&closest, *stack, chunks[c - 1][19]);
+				if (closest.c_superior == chunks[c - 1][19])
+					return ;
+				else
+					chunks[c][i] = closest.c_superior;
+			}
+			else
+			{
+				find_closest(&closest, *stack, chunks[c][i -1]);
+				if (closest.c_superior == chunks[c][i - 1])
+					return ;
+				else
+					chunks[c][i] = closest.c_superior;
+			}
+		}
+	}
+}
+
+int	chunk_is_empty(long long int *chunk, int chunk_size)
+{
+	int	c;
+
+	c = -1;
+	while (++c < chunk_size)
+		if (chunk[c] != LLONG_MAX)
+			return (0);
+	return (1);
+}
+
+int	is_in_chunk(long long int *chunk, int number, int chunk_size)
+{
+	int c;
+
+	c = -1;
+	while (++c < chunk_size)
+	{
+		if (chunk[c] != LLONG_MAX)
+			if (chunk[c] == (long long int)number)
+				return (1);
+	}
+	return (0);
+}
+
+int	get_first_top_index(int *stack, int stack_size, long long int *chunk, int chunk_size)
+{
+	int c;
+
+	c = -1;
+	while (++c < stack_size)
+	{
+		if (is_in_chunk(chunk, stack[c], chunk_size))
+			return (c);
+	}
+	return (-1);
+}
+
+int	get_first_bot_index(int *stack, int stack_size, long long int *chunk, int chunk_size)
+{
+	while (--stack_size > -1)
+	{
+		if (is_in_chunk(chunk, stack[stack_size], chunk_size))
+			return (stack_size);
+	}
+	return (-1);
+}
+
+int	*lst_to_array(t_list *lst)
+{
+	int	*array;
+	int	c;
+	int	lstsize;
+
+	lstsize = ft_lstsize(lst);
+	array = malloc(lstsize * sizeof(int));
+	if (!array)
+		return (0);
+	c = -1;
+	while (++c < lstsize)
+	{
+		array[c] = *(int *)lst->content;
+		lst = lst->next;
+	}
+	return (array);
+}
+
+int	get_required_nb_of_moves(int list_size, int index)
+{
+	if (index + 1 < list_size / 2)
+		return (index);
+	else
+		return (list_size - index);
+}
+
+void	new_sort_hundred(t_list **stack_a, t_list **results, int size)
+{
+	(void)results;(void)size;
+	t_list			*iterator;
+	long long int	**chunks;
+	int				c;
+	int				*list_array;
+	t_list			*stack_b;
+
+	chunks = create_chunks();
+	populate_chunks(chunks, stack_a);
+	// for (size_t i = 0; i < 5; i++)
+	// {
+	// 	if (chunk_is_empty(chunks[i], 20))
+	// 		printf("chunk %zu is empty !\n", i);
+	// 	else
+	// 	{
+	// 		printf("chunk %zu is not empty !\n", i);
+	// 		for (size_t c = 0; c < 20; c++)
+	// 		{
+	// 			printf("chunk[%zu][%zu] is %lld\n", i, c, chunks[i][c]);
+	// 		}
+			
+	// 	}
+	// }
 	iterator = *stack_a;
-	stack_b = NULL;
+	c = 0;
 	while (iterator)
 	{
 		if (is_sorted(*stack_a, 1))
 		{
-			if (ft_lstsize(*stack_a) != size)
-				pull_b(stack_a, &stack_b, results);	
-			
-			pretty_print(*stack_a, stack_b);
+			if (ft_lstsize(*stack_a) == size)
+			{
+				printf("done\n");
+				return ;
+			}
+			printf("need pull b, breaking..\n");
 			return ;
+			// pull b
 		}
-		// pretty_print(*stack_a, stack_b);
-		if (ft_lstsize(*stack_a) > 3)
+		else
 		{
-			find_closest(&closest, *stack_a, *(int *)iterator->content);
-			/**
-			 * STREAKS
-			 * FUCKING USELESS LMAO
-			 */
-			if (find_streaks(iterator, &streak))
+			list_array = lst_to_array(*stack_a);
+			if (chunk_is_empty(chunks[c], 20))
+				c++;
+			int first_top = get_first_top_index(list_array, ft_lstsize(*stack_a), chunks[c], 20);
+			if (first_top != -1)
 			{
-				// printf("\n------------\npushing streak\n");
-				// pretty_print(*stack_a, stack_b);
-				// printf("closest streak is %d long, starting on number %d\n", streak.streak_len, streak.starting_number);
-				push_streak(&streak, stack_a, &stack_b, results);
-				// printf("\n------------\ndone\n");
-				// pretty_print(*stack_a, stack_b);
-				iterator = *stack_a;
+				if (first_top == 0)
+				{
+					push(stack_a, &stack_b);
+					ft_lstadd_back(results, ft_lstnew(ft_strdup("pb")));
+				}
+				else
+				{
+					int	first_bot = get_first_bot_index(list_array, ft_lstsize(*stack_a), chunks[c], 20);
+					printf("stack[%d] %d\tand\tstack[%d] %d\n", first_top, list_array[first_top], first_bot, list_array[first_bot]);
+					printf("%d vs %d\n", get_required_nb_of_moves(ft_lstsize(*stack_a), first_top), get_required_nb_of_moves(ft_lstsize(*stack_a), first_bot));
+					return ;
+				}
 			}
-			/**
-			 * CHUNKS
-			 * import logic from medium
-			 * import no_honor from fuck_this_project
-			 */
-			else
-			{
-				t_list_info *bla = find_smallest(*stack_a);
-				// printf("biggest is %d, on position %d\n", bla->smallest, bla->smallest_pos);
-				put_on_top(bla->smallest, stack_a, results, get_rotate_mode(bla->smallest_pos, ft_lstsize(*stack_a)));
-				push(stack_a, &stack_b);
-				ft_lstadd_back(results, ft_lstnew(ft_strdup("pb")));
-				// if (ft_lstsize(stack_b) > 1)
-				// {
-				// 	rotate(&stack_b);
-				// 	ft_lstadd_back(results, ft_lstnew(ft_strdup("rb")));
-				// }
-				iterator = *stack_a;
-			}
-			iterator = iterator->next;
-		}
-		else if (ft_lstsize(*stack_a) == 3)
-		{
-			// printf("sorting 3\n");
-			sort_three(stack_a, results);
-			// pretty_print(*stack_a, stack_b);
-			pull_b(stack_a, &stack_b, results);
-			// pretty_print(*stack_a, stack_b);
+			free(list_array);
 		}
 	}
 }
+
+// void	sort_upto_hundred(t_list **stack_a, t_list **results, int size)
+// {
+// 	(void)size;
+// 	t_closest	closest;
+// 	t_list		*iterator;
+// 	t_streak	streak;
+// 	t_list		*stack_b;
+// 	t_chunks	*chunks;
+
+// 	chunks = create_chunks(stack_a, size);
+// 	iterator = *stack_a;
+// 	stack_b = NULL;
+// 	while (iterator)
+// 	{
+// 		if (is_sorted(*stack_a, 1))
+// 		{
+// 			if (ft_lstsize(*stack_a) != size)
+// 				pull_b(stack_a, &stack_b, results);	
+			
+// 			pretty_print(*stack_a, stack_b);
+// 			return ;
+// 		}
+// 		// pretty_print(*stack_a, stack_b);
+// 		if (ft_lstsize(*stack_a) > 3)
+// 		{
+// 			find_closest(&closest, *stack_a, *(int *)iterator->content);
+// 			/**
+// 			 * STREAKS
+// 			 * FUCKING USELESS LMAO
+// 			 */
+// 			if (find_streaks(iterator, &streak))
+// 			{
+// 				// printf("\n------------\npushing streak\n");
+// 				// pretty_print(*stack_a, stack_b);
+// 				// printf("closest streak is %d long, starting on number %d\n", streak.streak_len, streak.starting_number);
+// 				push_streak(&streak, stack_a, &stack_b, results);
+// 				// printf("\n------------\ndone\n");
+// 				// pretty_print(*stack_a, stack_b);
+// 				iterator = *stack_a;
+// 			}
+// 			/**
+// 			 * CHUNKS
+// 			 * import logic from medium
+// 			 * import no_honor from fuck_this_project
+// 			 */
+// 			else
+// 			{
+// 				t_list_info *bla = find_smallest(*stack_a);
+// 				// printf("biggest is %d, on position %d\n", bla->smallest, bla->smallest_pos);
+// 				put_on_top(bla->smallest, stack_a, results, get_rotate_mode(bla->smallest_pos, ft_lstsize(*stack_a)));
+// 				push(stack_a, &stack_b);
+// 				ft_lstadd_back(results, ft_lstnew(ft_strdup("pb")));
+// 				// if (ft_lstsize(stack_b) > 1)
+// 				// {
+// 				// 	rotate(&stack_b);
+// 				// 	ft_lstadd_back(results, ft_lstnew(ft_strdup("rb")));
+// 				// }
+// 				iterator = *stack_a;
+// 			}
+// 			iterator = iterator->next;
+// 		}
+// 		else if (ft_lstsize(*stack_a) == 3)
+// 		{
+// 			// printf("sorting 3\n");
+// 			sort_three(stack_a, results);
+// 			// pretty_print(*stack_a, stack_b);
+// 			pull_b(stack_a, &stack_b, results);
+// 			// pretty_print(*stack_a, stack_b);
+// 		}
+// 	}
+// }
