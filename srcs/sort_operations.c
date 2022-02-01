@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 19:59:28 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/01 04:12:17 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/01 06:01:14 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,24 +68,6 @@ int		get_position(t_list *stack, int number)
 		stack = stack->next;
 	}
 	return (position);
-}
-
-// 1 for rotate, 0 for reverse
-void	put_on_top(int biggest, t_list **stack, t_list **results, int mode)
-{
-	while (*(int *)(*stack)->content != biggest) 
-	{
-		if (mode == 1)
-		{
-			rotate(stack);
-			ft_lstadd_back(results, ft_lstnew(ft_strdup("ra")));
-		}
-		else
-		{
-			reverse_rotate(stack);
-			ft_lstadd_back(results, ft_lstnew(ft_strdup("rra")));
-		}
-	}
 }
 
 int		get_rotate_mode(int position, int stack_size)
@@ -498,6 +480,42 @@ int	get_required_nb_of_moves(int list_size, int index)
 		return (list_size - index);
 }
 
+/**
+ * mode 1 to use ra, mode 0 to use rra
+ */
+void	put_on_top(t_list **stack_a, t_list **results, int mode, int nb_of_moves)
+{
+	if (mode)
+	{
+		while (nb_of_moves--)
+		{
+			rotate(stack_a);
+			ft_lstadd_back(results, ft_lstnew(ft_strdup("ra")));
+		}
+	}
+	else
+	{
+		while (nb_of_moves--)
+		{
+			reverse_rotate(stack_a);
+			ft_lstadd_back(results, ft_lstnew(ft_strdup("rra")));
+		}
+	}
+	printf("%d is now on top !\n", *(int *)(*stack_a)->content);
+}
+
+void	gtfo_my_chunk(long long int *chunk, long long int number, int chunk_size)
+{
+	int	c;
+
+	c = -1;
+	while (++c < chunk_size)
+	{
+		if (chunk[c] == number)
+			chunk[c] = LLONG_MAX;
+	}
+}
+
 void	new_sort_hundred(t_list **stack_a, t_list **results, int size)
 {
 	(void)results;(void)size;
@@ -506,9 +524,11 @@ void	new_sort_hundred(t_list **stack_a, t_list **results, int size)
 	int				c;
 	int				*list_array;
 	t_list			*stack_b;
+	t_chunks_info	infos;
 
 	chunks = create_chunks();
 	populate_chunks(chunks, stack_a);
+	memset(&infos, 0, sizeof(t_chunks_info));
 	// for (size_t i = 0; i < 5; i++)
 	// {
 	// 	if (chunk_is_empty(chunks[i], 20))
@@ -525,8 +545,11 @@ void	new_sort_hundred(t_list **stack_a, t_list **results, int size)
 	// }
 	iterator = *stack_a;
 	c = 0;
+	int count = 0;
 	while (iterator)
 	{
+		if (count++ > 4)
+			return ;
 		if (is_sorted(*stack_a, 1))
 		{
 			if (ft_lstsize(*stack_a) == size)
@@ -534,7 +557,7 @@ void	new_sort_hundred(t_list **stack_a, t_list **results, int size)
 				printf("done\n");
 				return ;
 			}
-			printf("need pull b, breaking..\n");
+			// printf("need pull b, breaking..\n");
 			return ;
 			// pull b
 		}
@@ -543,21 +566,26 @@ void	new_sort_hundred(t_list **stack_a, t_list **results, int size)
 			list_array = lst_to_array(*stack_a);
 			if (chunk_is_empty(chunks[c], 20))
 				c++;
-			int first_top = get_first_top_index(list_array, ft_lstsize(*stack_a), chunks[c], 20);
-			if (first_top != -1)
+			infos.first_top = get_first_top_index(list_array, ft_lstsize(*stack_a), chunks[c], 20);
+			pretty_print(*stack_a, stack_b);
+			if (infos.first_top != -1)
 			{
-				if (first_top == 0)
+				if (infos.first_top != 0)
 				{
-					push(stack_a, &stack_b);
-					ft_lstadd_back(results, ft_lstnew(ft_strdup("pb")));
+					infos.first_bot = get_first_bot_index(list_array, ft_lstsize(*stack_a), chunks[c], 20);
+					infos.bot_moves = get_required_nb_of_moves(ft_lstsize(*stack_a), infos.first_bot);
+					infos.top_moves = get_required_nb_of_moves(ft_lstsize(*stack_a), infos.first_top);
+					printf("stack[%d] %d\tand\tstack[%d] %d\n", infos.first_top, list_array[infos.first_top], infos.first_bot, list_array[infos.first_bot]);
+					printf("%d needs %d moves vs %d needing %d moves\n", infos.first_top, infos.top_moves, infos.first_bot, infos.bot_moves);
+					if (infos.top_moves < infos.bot_moves)
+						put_on_top(stack_a, results, 1, get_required_nb_of_moves(ft_lstsize(*stack_a), infos.first_top));
+					else
+						put_on_top(stack_a, results, 0, get_required_nb_of_moves(ft_lstsize(*stack_a), infos.first_top));
+					// return ;
+					// pretty_print(*stack_a, stack_b);
 				}
-				else
-				{
-					int	first_bot = get_first_bot_index(list_array, ft_lstsize(*stack_a), chunks[c], 20);
-					printf("stack[%d] %d\tand\tstack[%d] %d\n", first_top, list_array[first_top], first_bot, list_array[first_bot]);
-					printf("%d vs %d\n", get_required_nb_of_moves(ft_lstsize(*stack_a), first_top), get_required_nb_of_moves(ft_lstsize(*stack_a), first_bot));
-					return ;
-				}
+				push(stack_a, &stack_b);
+				ft_lstadd_back(results, ft_lstnew(ft_strdup("pb")));
 			}
 			free(list_array);
 		}

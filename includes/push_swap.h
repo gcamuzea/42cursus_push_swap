@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 15:55:23 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/01 01:34:32 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/01 05:02:08 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,13 @@ typedef struct s_closest
     int c_inferior;
 }   t_closest;
 
-typedef struct s_chunks
+typedef struct s_chunks_info
 {
-    int ***chunks;
-    int first_index;
-    int second_index;
-}   t_chunks;
+    int first_top;
+    int top_moves;
+    int first_bot;
+    int bot_moves;
+} t_chunks_info;
 
 typedef struct s_streak
 {
