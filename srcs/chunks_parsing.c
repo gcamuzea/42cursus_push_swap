@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 02:12:49 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/02 02:30:45 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/02 07:32:39 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,29 @@ int	get_first_bot_index(int *stack, int stack_size, long long int *chunk, int ch
 			return (stack_size);
 	}
 	return (-1);
+}
+
+int chunk_is_empty(long long int *chunk, int chunk_size)
+{
+	int c;
+
+	c = -1;
+	while (++c < chunk_size)
+		if (chunk[c] != LLONG_MAX)
+			return (0);
+	return (1);
+}
+
+int is_in_chunk(long long int *chunk, int number, int chunk_size)
+{
+	int c;
+
+	c = -1;
+	while (++c < chunk_size)
+	{
+		if (chunk[c] != LLONG_MAX)
+			if (chunk[c] == (long long int)number)
+				return (1);
+	}
+	return (0);
 }

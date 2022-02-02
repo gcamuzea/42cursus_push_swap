@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 19:02:25 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/02 07:28:32 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/02 08:15:54 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	push_swap(t_list **stack_a, int size)
 	*results = NULL;
 	if (!results)
 		exit(0);
-	printf("Sorting list of %d\n", size);
+	// printf("Sorting list of %d\n", size);
 	// DEBUG__print_lst(*stack_a, 'd');
 	if (size == 2)
 		sort_two(*stack_a, results);
@@ -42,7 +42,7 @@ void	push_swap(t_list **stack_a, int size)
 	// printf("2\n");
 	ft_lstsize(*results);
 	// printf("3\n");
-	// ft_lstclear(results, free);
+	ft_lstclear(results, free);
 	// printf("4\n");
 	free(results);
 }

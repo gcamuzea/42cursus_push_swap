@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 15:55:23 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/02 06:56:09 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/02 08:04:29 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void push(t_list **stack_1, t_list **stack_2);
 void rotate(t_list **stack);
 void reverse_rotate(t_list **stack);
 // sort_operations
-t_list_info	*find_smallest(t_list *stack);
+int		find_smallest(t_list *stack);
 void	find_closest(t_closest *closest, t_list *stack, int number);
 void sort_upto_hundred(t_list **stack_a, t_list **results, int size);
 void new_sort_hundred(t_list **stack_a, t_list **results, int size);
@@ -88,11 +88,12 @@ void pretty_print(t_list *stack_a, t_list *stack_b);
 int get_list_biggest(t_list *stack);
 int get_list_smallest(t_list *stack);
 // chunks_operations
-long long int **create_chunks(void);
+long long int **create_chunks(int nb_of_chunks, int sizeof_chunk);
 void populate_chunks(long long int **chunks, t_list **stack);
 int chunk_is_empty(long long int *chunk, int chunk_size);
 int is_in_chunk(long long int *chunk, int number, int chunk_size);
 void	gtfo_my_chunk(long long int *chunk, long long int number, int chunk_size);
+void	free_chunks(long long int **chunks, int nb_chunks);
 // chunks_parsing
 int	get_first_top_index(int *stack, int stack_size, long long int *chunk, int chunk_size);
 int	get_first_bot_index(int *stack, int stack_size, long long int *chunk, int chunk_size);

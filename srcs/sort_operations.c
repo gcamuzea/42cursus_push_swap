@@ -6,35 +6,26 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 19:59:28 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/02 07:28:08 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/02 08:04:07 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_list_info	*find_smallest(t_list *stack)
+int	find_smallest(t_list *stack)
 {
-	t_list_info	*info;
 	t_list		*iterator;
+	int			smallest;
 
-	info = malloc(sizeof(t_list_info));
-	if (!info)
-		return (NULL);
-	info->smallest = *(int *)stack->content;
-	info->smallest_pos = 1;
+	smallest = *(int *)stack->content;
 	iterator = stack;
 	while (iterator)
 	{
-		if (*(int *)iterator->content < info->smallest)
-			info->smallest = *(int *)iterator->content;
+		if (*(int *)iterator->content < smallest)
+			smallest = *(int *)iterator->content;
 		iterator = iterator->next;
 	}
-	while (*(int *)stack->content != info->smallest)
-	{
-		stack = stack->next;
-		info->smallest_pos++;
-	}
-	return (info);
+	return (smallest);
 }
 
 int		get_position(t_list *stack, int number)
@@ -123,7 +114,7 @@ void	new_sort_hundred(t_list **stack_a, t_list **results, int size)
 	t_list			*stack_b;
 	t_chunks_info	infos;
 
-	chunks = create_chunks();
+	chunks = create_chunks(5, 20);
 	stack_b = NULL;
 	populate_chunks(chunks, stack_a);
 	memset(&infos, 0, sizeof(t_chunks_info));
@@ -187,6 +178,7 @@ void	new_sort_hundred(t_list **stack_a, t_list **results, int size)
 			free(list_array);
 	}
 	pull_b(stack_a, &stack_b, results);
+	free_chunks(chunks, 5);
 	// pretty_print(*stack_a, stack_b);
 }
 
