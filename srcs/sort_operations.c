@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 19:59:28 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/02 02:40:49 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/02 07:28:08 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,12 @@ void	put_on_top(t_list **stack_a, t_list **results, int mode, int nb_of_moves)
 			ft_lstadd_back(results, ft_lstnew(ft_strdup("rra")));
 		}
 	}
-	printf("%d is now on top !\n", *(int *)(*stack_a)->content);
+	// printf("%d is now on top !\n", *(int *)(*stack_a)->content);
 }
 
 void	new_sort_hundred(t_list **stack_a, t_list **results, int size)
 {
 	(void)results;(void)size;
-	t_list			*iterator;
 	long long int	**chunks;
 	int				c;
 	int				*list_array;
@@ -125,8 +124,11 @@ void	new_sort_hundred(t_list **stack_a, t_list **results, int size)
 	t_chunks_info	infos;
 
 	chunks = create_chunks();
+	stack_b = NULL;
 	populate_chunks(chunks, stack_a);
 	memset(&infos, 0, sizeof(t_chunks_info));
+	if (is_sorted(*stack_a, 1))
+		return ;
 	// for (size_t i = 0; i < 5; i++)
 	// {
 	// 	if (chunk_is_empty(chunks[i], 20))
@@ -141,33 +143,22 @@ void	new_sort_hundred(t_list **stack_a, t_list **results, int size)
 			
 	// 	}
 	// }
-	iterator = *stack_a;
+	// return;
 	c = 0;
 	int count = 0;
-	while (iterator)
+	while ((*stack_a)) //stop at 1
 	{
-		if (count++ > 30)
-			return ;
-		if (is_sorted(*stack_a, 1))
-		{
-			if (ft_lstsize(*stack_a) == size)
-			{
-				printf("done\n");
-				return ;
-			}
-			// printf("need pull b, breaking..\n");
-			return ;
-			// pull b
-		}
-		else
-		{
+		count++;
+		// if (count++ > 30)
+		// 	return ;
 			list_array = lst_to_array(*stack_a);
 			if (chunk_is_empty(chunks[c], 20))
 			{
-				printf("empty chunk %d, now +1\n", c);
+				// printf("empty chunk %d, now +1\n", c);
 				c++;
 			}
 			infos.first_top = get_first_top_index(list_array, ft_lstsize(*stack_a), chunks[c], 20);
+			// printf("first top %d\n", infos.first_top);
 			// pretty_print(*stack_a, stack_b);
 			if (infos.first_top != -1)
 			{
@@ -176,8 +167,8 @@ void	new_sort_hundred(t_list **stack_a, t_list **results, int size)
 					infos.first_bot = get_first_bot_index(list_array, ft_lstsize(*stack_a), chunks[c], 20);
 					infos.bot_moves = get_required_nb_of_moves(ft_lstsize(*stack_a), infos.first_bot);
 					infos.top_moves = get_required_nb_of_moves(ft_lstsize(*stack_a), infos.first_top);
-					printf("move %d, stack[%d] %d\tand\tstack[%d] %d\n", count, infos.first_top, list_array[infos.first_top], infos.first_bot, list_array[infos.first_bot]);
-					printf("%d needs %d moves vs %d needing %d moves\n", infos.first_top, infos.top_moves, infos.first_bot, infos.bot_moves);
+					// printf("move %d, stack[%d] %d\tand\tstack[%d] %d\n", count, infos.first_top, list_array[infos.first_top], infos.first_bot, list_array[infos.first_bot]);
+					// printf("%d needs %d moves vs %d needing %d moves\n", infos.first_top, infos.top_moves, infos.first_bot, infos.bot_moves);
 					if (infos.top_moves < infos.bot_moves)
 						put_on_top(stack_a, results, 1, get_required_nb_of_moves(ft_lstsize(*stack_a), infos.first_top));
 					else
@@ -185,14 +176,18 @@ void	new_sort_hundred(t_list **stack_a, t_list **results, int size)
 					// return ;
 					// pretty_print(*stack_a, stack_b);
 				}
-				printf("deleting %d in chunk %d\n", *(int *)(*stack_a)->content, c);
+				// printf("deleting %d in chunk %d\n", *(int *)(*stack_a)->content, c);
 				gtfo_my_chunk(chunks[c], *(int *)(*stack_a)->content, 20);
+				prepare_stack(&stack_b, results, *(int *)(*stack_a)->content);
 				push(stack_a, &stack_b);
 				ft_lstadd_back(results, ft_lstnew(ft_strdup("pb")));
 			}
+			else
+				return ;
 			free(list_array);
-		}
 	}
+	pull_b(stack_a, &stack_b, results);
+	// pretty_print(*stack_a, stack_b);
 }
 
 // void	sort_upto_hundred(t_list **stack_a, t_list **results, int size)

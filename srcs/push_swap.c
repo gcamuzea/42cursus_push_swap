@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 19:02:25 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/01 03:26:47 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/02 07:28:32 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	push_swap(t_list **stack_a, int size)
 	t_list **results;
 
 	results = malloc(sizeof(t_list **));
+	*results = NULL;
 	if (!results)
 		exit(0);
 	printf("Sorting list of %d\n", size);

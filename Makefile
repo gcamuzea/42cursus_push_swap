@@ -6,7 +6,7 @@
 #    By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/15 02:21:09 by gucamuze          #+#    #+#              #
-#    Updated: 2022/02/02 02:38:03 by gucamuze         ###   ########.fr        #
+#    Updated: 2022/02/02 07:01:20 by gucamuze         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRC_FILES		=	${SRCS_PATH}main.c \
 					${SRCS_PATH}chunks_parsing.c \
 					${SRCS_PATH}sort_upto_five.c \
 					${SRCS_PATH}closest.c \
+					${SRCS_PATH}MISC.c \
 					${SRCS_PATH}push_swap.c 
 SRC_OFILES		= 	$(SRC_FILES:.c=.o)
 
@@ -102,7 +103,10 @@ fclean:		clean
 re:			fclean all
 
 norminette:
-			norminette srcs libft includes			
+			norminette srcs libft includes
+
+bonus:
+			@google-chrome-stable --new-window https://youtu.be/dQw4w9WgXcQ\?t\=42	
 
 .PHONY:	all clean fclean re norminette
 

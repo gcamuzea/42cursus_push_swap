@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 02:07:47 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/02 02:40:30 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/02 04:54:22 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,10 @@ long long int **create_chunks(void)
 
 void	populate_chunks(long long int **chunks, t_list **stack)
 {
-	t_list *iterator;
 	t_closest closest;
 	int c;
 	int i;
 
-	iterator = *stack;
 	c = -1;
 	while (++c < 5)
 	{
