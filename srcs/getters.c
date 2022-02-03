@@ -6,11 +6,39 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 04:58:06 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/03 04:58:31 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/03 05:32:08 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	get_list_biggest(t_list *stack)
+{
+	int max;
+	
+	max = INT_MIN;
+	while (stack)
+	{
+		if (*(int *)stack->content > max)
+			max = *(int *)stack->content;
+		stack = stack->next;
+	}
+	return (max);
+}
+
+int	get_list_smallest(t_list *stack)
+{
+	int min;
+	
+	min = INT_MAX;
+	while (stack)
+	{
+		if (*(int *)stack->content < min)
+			min = *(int *)stack->content;
+		stack = stack->next;
+	}
+	return (min);
+}
 
 int get_position(t_list *stack, int number)
 {

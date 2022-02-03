@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 02:07:47 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/03 04:38:29 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/03 05:44:15 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,36 +22,36 @@ long long int **create_chunks(int nb_of_chunks, int sizeof_chunk)
 	if (!chunks)
 		return (0);
 	c = -1;
-	while (++c < 5)
+	while (++c < nb_of_chunks)
 	{
 		chunks[c] = malloc(sizeof_chunk * sizeof(long long int));
 		if (!chunks[c])
 			return (0);
 		i = -1;
-		while (++i < 20)
+		while (++i < sizeof_chunk)
 			chunks[c][i] = LLONG_MAX;
 	}
 	return (chunks);
 }
 
-void	populate_chunks(long long int **chunks, t_list *stack)
+void	populate_chunks(long long int **chunks, t_list *stack, int chunk_nb, int chunk_size)
 {
 	t_closest closest;
 	int c;
 	int i;
 
 	c = -1;
-	while (++c < 5)
+	while (++c < chunk_nb)
 	{
 		i = -1;
-		while (++i < 20)
+		while (++i < chunk_size)
 		{
 			if (c == 0 && i == 0)
 				chunks[c][i] = find_smallest(stack);
 			else if (i == 0)
 			{
-				find_closest(&closest, stack, chunks[c - 1][19]);
-				if (closest.c_superior == chunks[c - 1][19])
+				find_closest(&closest, stack, chunks[c - 1][chunk_size - 1]);
+				if (closest.c_superior == chunks[c - 1][chunk_size - 1])
 					return;
 				else
 					chunks[c][i] = closest.c_superior;

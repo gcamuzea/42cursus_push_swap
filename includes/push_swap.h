@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 15:55:23 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/03 04:58:53 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/03 05:43:38 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void reverse_rotate(t_list **stack);
 int		get_position(t_list *stack, int number);
 int		get_required_nb_of_moves(int list_size, int index, int mode);
 int 	get_nb_of_moves(int list_size, int index, int mode);
+int 	get_list_biggest(t_list *stack);
+int 	get_list_smallest(t_list *stack);
 
 // sort_operations
 int		find_smallest(t_list *stack);
@@ -72,9 +74,10 @@ void sort_three(t_list **stack_a, t_list **results);
 void sort_upto_five(t_list **stack_a, t_list **results, int size);
 int	get_closest_pos(t_list **stack, int number, int stacksize);
 // sort_big
-void	send_to_b(t_data *data, int c, int ret);
-void	sort_and_push(t_data *data);
+void	send_to_b(t_data *data, int c, int ret, int chunk_size);
+void	sort_and_push(t_data *data, int chunk_size);
 void 	sort_upto_hundred(t_list **stack_a, t_list **results);
+void	sort_upto_five_hundred(t_list **stack_a, t_list **results);
 // closest
 void	find_closest(t_closest *closest, t_list *stack, int number);
 int		get_closest(t_list *stack, int number, int mode);
@@ -95,11 +98,10 @@ int get_sort_state(t_list *stack);
 void DEBUG__print_lst(t_list *list, char mode);
 void print_results(t_list *results);
 void pretty_print(t_list *stack_a, t_list *stack_b);
-int get_list_biggest(t_list *stack);
-int get_list_smallest(t_list *stack);
+t_data	*setup_data(t_list *stack_a, t_list **results, int chnk_nb, int size);
 // chunks_operations
 long long int **create_chunks(int nb_of_chunks, int sizeof_chunk);
-void populate_chunks(long long int **chunks, t_list *stack);
+void populate_chunks(long long int **chunks, t_list *stack, int chunk_nb, int chunk_size);
 int chunk_is_empty(long long int *chunk, int chunk_size);
 int is_in_chunk(long long int *chunk, int number, int chunk_size);
 void	gtfo_my_chunk(long long int *chunk, long long int number, int chunk_size);

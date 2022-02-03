@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 19:02:25 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/03 04:20:17 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/03 05:34:23 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	push_swap(t_list **stack_a, int size)
 	else if (size <= 100)
 		sort_upto_hundred(stack_a, results);
 	else if (size <= 500)
-		printf("shorturl.at/ikyUX\n");
+		sort_upto_five_hundred(stack_a, results);
 	// else
 	// 	sort_big(*stack_a, size);
 	// printf("final stack =>\n");

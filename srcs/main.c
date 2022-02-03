@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 16:29:44 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/01/05 16:58:20 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/03 05:49:57 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,16 @@ int	check_stack(t_list *stack)
 	{
 		number = *(long long *)current->content;
 		if (number > INT_MAX || number < INT_MIN)
+		{
+			printf("error: %lld not an int\n", number);
 			return (0);
+		}
 		if (stack_index > 0)
 			if (!check_doubles(number, stack_index, stack))
+			{
+				printf("Error: a number is doubled\n");
 				return (0);
+			}
 		current = current->next;
 		stack_index++;
 	}
@@ -98,12 +104,14 @@ int	main(int ac, char **av)
 	{
 		if (!check_args(ac, av))
 		{
+			printf("args\n");
 			PRINT_ERR;
 			return (-1);
 		}
 		stack_a = create_stack(ac, av);
 		if (!check_stack(stack_a))
 		{
+			printf("stack\n");
 			PRINT_ERR;
 			ft_lstclear(&stack_a, free);
 		}
