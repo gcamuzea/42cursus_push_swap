@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 15:55:23 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/02 08:04:29 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/03 01:35:59 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	find_closest(t_closest *closest, t_list *stack, int number);
 void sort_upto_hundred(t_list **stack_a, t_list **results, int size);
 void new_sort_hundred(t_list **stack_a, t_list **results, int size);
 int		get_position(t_list *stack, int number);
-int	get_required_nb_of_moves(int list_size, int index);
+int	get_required_nb_of_moves(int list_size, int index, int mode);
 // sort_upto_five
 void sort_two(t_list *stack_a, t_list **results);
 void sort_three(t_list **stack_a, t_list **results);
@@ -71,7 +71,7 @@ int		get_closest(t_list *stack, int number, int mode);
 int		is_the_smallest(t_list *stack, int number);
 int		is_the_biggest(t_list *stack, int number);
 //MISC
-void	prepare_stack(t_list **stack_b, t_list **results, int number);
+int		prepare_stack(t_list **stack_b, t_list **results, int number);
 void	pull_b(t_list **stack_a, t_list **stack_b, t_list **results);
 // sort_state_operations
 void sort_state_0(t_list **stack_a, t_list **results);
