@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 02:31:05 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/02 02:34:36 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/03 04:59:21 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,5 @@ void	sort_upto_five(t_list **stack_a, t_list **results, int size)
 				ft_lstadd_back(results, ft_lstnew(ft_strdup("sa")));
 			}
 		}
-		pretty_print(*stack_a, stack_b);
-		printf("test lstcpy\n");
-		pretty_print(ft_lstcpy(*stack_a), stack_b);
 	}
 }

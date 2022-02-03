@@ -6,7 +6,7 @@
 #    By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/15 02:21:09 by gucamuze          #+#    #+#              #
-#    Updated: 2022/02/02 07:01:20 by gucamuze         ###   ########.fr        #
+#    Updated: 2022/02/03 04:59:42 by gucamuze         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,8 @@ SRC_FILES		=	${SRCS_PATH}main.c \
 					${SRCS_PATH}sort_upto_five.c \
 					${SRCS_PATH}closest.c \
 					${SRCS_PATH}MISC.c \
+					${SRCS_PATH}sort_big.c \
+					${SRCS_PATH}getters.c \
 					${SRCS_PATH}push_swap.c 
 SRC_OFILES		= 	$(SRC_FILES:.c=.o)
 

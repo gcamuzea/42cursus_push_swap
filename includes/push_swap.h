@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 15:55:23 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/03 01:35:59 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/03 04:58:53 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,15 @@ typedef struct s_chunks_info
 	int bot_moves;
 } t_chunks_info;
 
-typedef struct s_streak
+typedef struct s_data
 {
-	int starting_index;
-	int starting_number;
-	int streak_len;
-} t_streak;
+	t_list			*s_a;
+	t_list			*s_b;
+	t_list			**results;
+	long long int	**chunks;
+	t_chunks_info	c_info;
+	int				*lst_arr;
+} t_data;
 
 void print_test(void);
 // checks
@@ -53,18 +56,25 @@ void swap(t_list **stack);
 void push(t_list **stack_1, t_list **stack_2);
 void rotate(t_list **stack);
 void reverse_rotate(t_list **stack);
+// getters
+int		get_position(t_list *stack, int number);
+int		get_required_nb_of_moves(int list_size, int index, int mode);
+int 	get_nb_of_moves(int list_size, int index, int mode);
+
 // sort_operations
 int		find_smallest(t_list *stack);
 void	find_closest(t_closest *closest, t_list *stack, int number);
-void sort_upto_hundred(t_list **stack_a, t_list **results, int size);
-void new_sort_hundred(t_list **stack_a, t_list **results, int size);
-int		get_position(t_list *stack, int number);
-int	get_required_nb_of_moves(int list_size, int index, int mode);
+int 	*lst_to_array(t_list *lst);
+void	put_on_top(t_list **stack_a, t_list **results, int mode, int nb_of_moves);
 // sort_upto_five
 void sort_two(t_list *stack_a, t_list **results);
 void sort_three(t_list **stack_a, t_list **results);
 void sort_upto_five(t_list **stack_a, t_list **results, int size);
 int	get_closest_pos(t_list **stack, int number, int stacksize);
+// sort_big
+void	send_to_b(t_data *data, int c, int ret);
+void	sort_and_push(t_data *data);
+void 	sort_upto_hundred(t_list **stack_a, t_list **results);
 // closest
 void	find_closest(t_closest *closest, t_list *stack, int number);
 int		get_closest(t_list *stack, int number, int mode);
@@ -89,7 +99,7 @@ int get_list_biggest(t_list *stack);
 int get_list_smallest(t_list *stack);
 // chunks_operations
 long long int **create_chunks(int nb_of_chunks, int sizeof_chunk);
-void populate_chunks(long long int **chunks, t_list **stack);
+void populate_chunks(long long int **chunks, t_list *stack);
 int chunk_is_empty(long long int *chunk, int chunk_size);
 int is_in_chunk(long long int *chunk, int number, int chunk_size);
 void	gtfo_my_chunk(long long int *chunk, long long int number, int chunk_size);
