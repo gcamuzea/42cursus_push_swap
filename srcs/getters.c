@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 04:58:06 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/07 11:06:17 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/07 14:43:25 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,15 @@ int	get_position(t_list *stack, int number)
 	return (position);
 }
 
+// returns 1 for rotate, 0 for rev rotate
 int	get_rotate_mode(int position, int stack_size)
 {
 	if (stack_size % 2)
 	{
-		if (position <= (stack_size + 1) / 2)
+		if (position < (stack_size + 1) / 2)
 			return (1);
 	}
-	else if (position <= stack_size / 2)
+	else if (position < stack_size / 2)
 		return (1);
 	return (0);
 }

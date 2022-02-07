@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 02:36:25 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/07 11:05:37 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/07 16:02:03 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,8 @@ int	is_the_smallest(t_list *stack, int number)
 /**
  *	MODE 1 for closest superior, mode 0 for closest inferior
 **/
-int	get_closest(t_list *stack, int number, int mode)
+int	get_closest(t_list *stack, int number, int closest, int mode)
 {
-	int	closest;
-
 	closest = number;
 	if (mode)
 	{
@@ -74,9 +72,9 @@ void	find_closest(t_closest *closest, t_list *stack, int number)
 	if (is_the_biggest(stack, number))
 		closest->c_superior = number;
 	else
-		closest->c_superior = get_closest(stack, number, 1);
+		closest->c_superior = get_closest(stack, number, 0, 1);
 	if (is_the_smallest(stack, number))
 		closest->c_inferior = number;
 	else
-		closest->c_inferior = get_closest(stack, number, 0);
+		closest->c_inferior = get_closest(stack, number, 0, 0);
 }

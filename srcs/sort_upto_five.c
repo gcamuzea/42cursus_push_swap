@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 02:31:05 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/07 11:13:16 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/07 15:44:59 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,71 +32,41 @@ void	sort_three(t_list **stack_a, t_list **results)
 	state_function[get_sort_state(*stack_a)](stack_a, results);
 }
 
-int	get_closest_pos(t_list **stack, int number, int stacksize)
+static void	send_smallest(t_list **stack_a, t_list **stack_b, t_list **results)
 {
-	t_list	*ptr;
-	int		lst_nbr;
-	int		closest;
-	int		closest_pos;
+	int	smallest_pos;
+	int	rotate_mode;
+	int	moves;
 
-	closest = INT_MAX;
-	closest_pos = 0;
-	ptr = *stack;
-	while (ptr)
+	smallest_pos = get_position(*stack_a, get_list_smallest(*stack_a));
+	rotate_mode = get_rotate_mode(smallest_pos, ft_lstsize(*stack_a));
+	moves = get_nb_of_moves(ft_lstsize(*stack_a), smallest_pos, rotate_mode);
+	while (moves--)
 	{
-		lst_nbr = *(int *)ptr->content;
-		if (lst_nbr - number > 0 && lst_nbr < closest)
-			closest = lst_nbr;
-		ptr = ptr->next;
-	}
-	ptr = *stack;
-	if (closest != INT_MAX)
-	{
-		while (*(int *)ptr->content != closest)
+		if (rotate_mode)
 		{
-			closest_pos++;
-			ptr = ptr->next;
-		}	
+			rotate(stack_a);
+			ft_lstadd_back(results, ft_lstnew(ft_strdup("ra")));
+		}
+		else
+		{
+			reverse_rotate(stack_a);
+			ft_lstadd_back(results, ft_lstnew(ft_strdup("rra")));
+		}
 	}
-	else
-		closest_pos = -1;
-	return (closest_pos);
+	push(stack_a, stack_b);
+	ft_lstadd_back(results, ft_lstnew(ft_strdup("pb")));
 }
 
-// NEED -> freeinfo
-void	sort_upto_five(t_list **stack_a, t_list **results, int size)
+void	sort_upto_five(t_list **stack_a, t_list **results)
 {
 	t_list	*stack_b;
 
 	if (is_sorted(*stack_a, 1))
 		return ;
 	stack_b = NULL;
-	while (size-- > 3)
-	{
-		push(stack_a, &stack_b);
-		ft_lstadd_back(results, ft_lstnew(ft_strdup("pb")));
-	}
+	while (ft_lstsize(*stack_a) > 3)
+		send_smallest(stack_a, &stack_b, results);
 	sort_three(stack_a, results);
-	pretty_print(*stack_a, stack_b);
-	while (stack_b)
-	{
-		int ret = get_closest_pos(stack_a, *(int *)stack_b->content, ft_lstsize(*stack_a));
-		if (ret == -1)
-		{
-			push(&stack_b, stack_a);
-			ft_lstadd_back(results, ft_lstnew(ft_strdup("pa")));
-			rotate(stack_a);
-			ft_lstadd_back(results, ft_lstnew(ft_strdup("ra")));
-		}
-		else
-		{
-			push(&stack_b, stack_a);
-			ft_lstadd_back(results, ft_lstnew(ft_strdup("pa")));
-			if (ret == 1)
-			{	
-				swap(stack_a);
-				ft_lstadd_back(results, ft_lstnew(ft_strdup("sa")));
-			}
-		}
-	}
+	pull_b(stack_a, &stack_b, results);
 }

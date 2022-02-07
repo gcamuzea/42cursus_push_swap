@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 15:55:23 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/07 10:53:29 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/07 16:34:52 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,33 +55,36 @@ void			rotate(t_list **stack);
 void			reverse_rotate(t_list **stack);
 // getters
 int				get_position(t_list *stack, int number);
-int				get_required_nb_of_moves(int list_size, int index, int mode);
 int				get_nb_of_moves(int list_size, int index, int mode);
 int				get_list_biggest(t_list *stack);
 int				get_list_smallest(t_list *stack);
-
+int				get_rotate_mode(int position, int stack_size);
 // sort_operations
 int				find_smallest(t_list *stack);
 void			find_closest(t_closest *closest, t_list *stack, int number);
 int				*lst_to_array(t_list *lst);
 void			put_on_top(t_list **stack_a, t_list **results, int mode,
 					int nb_of_moves);
+// operations
+void			ft_rotate(t_list **stack, t_list **results,
+					const char *operation);
+void			ft_push(t_list **s_1, t_list **s_2, t_list **results,
+					const char *operation);
 // sort_upto_five
 void			sort_two(t_list *stack_a, t_list **results);
 void			sort_three(t_list **stack_a, t_list **results);
-void			sort_upto_five(t_list **stack_a, t_list **results, int size);
-int				get_closest_pos(t_list **stack, int number, int stacksize);
+void			sort_upto_five(t_list **stack_a, t_list **results);
 // sort_big
 void			send_to_b(t_data *data, int c, int ret, int chunk_size);
 void			sort_and_push(t_data *data, int chunk_size);
 void			sort_upto_hundred(t_list **stack_a, t_list **results);
 void			sort_upto_five_hundred(t_list **stack_a, t_list **results);
+void			sort_upto_whatever(t_list **stack_a, t_list **results);
 // closest
 void			find_closest(t_closest *closest, t_list *stack, int number);
-int				get_closest(t_list *stack, int number, int mode);
 int				is_the_smallest(t_list *stack, int number);
 int				is_the_biggest(t_list *stack, int number);
-//MISC
+// stack_utils
 int				prepare_stack(t_list **stack_b, t_list **results, int number);
 void			pull_b(t_list **stack_a, t_list **stack_b, t_list **results);
 // sort_state_operations
