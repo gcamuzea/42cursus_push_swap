@@ -6,16 +6,16 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 19:59:28 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/03 04:58:31 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/07 11:12:02 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int find_smallest(t_list *stack)
+int	find_smallest(t_list *stack)
 {
-	t_list *iterator;
-	int smallest;
+	t_list	*iterator;
+	int		smallest;
 
 	smallest = *(int *)stack->content;
 	iterator = stack;
@@ -28,11 +28,11 @@ int find_smallest(t_list *stack)
 	return (smallest);
 }
 
-int *lst_to_array(t_list *lst)
+int	*lst_to_array(t_list *lst)
 {
-	int *array;
-	int c;
-	int lstsize;
+	int	*array;
+	int	c;
+	int	lstsize;
 
 	lstsize = ft_lstsize(lst);
 	array = malloc(lstsize * sizeof(int));
@@ -50,7 +50,8 @@ int *lst_to_array(t_list *lst)
 /**
  * mode 1 to use ra, mode 0 to use rra
  */
-void put_on_top(t_list **stack_a, t_list **results, int mode, int nb_of_moves)
+void	put_on_top(t_list **stack_a, t_list **results, int mode,
+			int nb_of_moves)
 {
 	if (mode)
 	{

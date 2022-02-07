@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 16:29:44 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/03 05:49:57 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/07 11:07:26 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_number(char *str)
 
 int	check_args(int ac, char **av)
 {
-	int n;
+	int	n;
 
 	n = 1;
 	while (n < ac)
@@ -36,7 +36,7 @@ int	check_args(int ac, char **av)
 	return (1);
 }
 
-t_list *create_stack(int ac, char **av)
+t_list	*create_stack(int ac, char **av)
 {
 	t_list			*begin;
 	t_list			*current;
@@ -84,10 +84,7 @@ int	check_stack(t_list *stack)
 		}
 		if (stack_index > 0)
 			if (!check_doubles(number, stack_index, stack))
-			{
-				printf("Error: a number is doubled\n");
 				return (0);
-			}
 		current = current->next;
 		stack_index++;
 	}
@@ -96,23 +93,21 @@ int	check_stack(t_list *stack)
 
 int	main(int ac, char **av)
 {
-	t_list *stack_a;
+	t_list	*stack_a;
 
 	if (ac < 3)
-		PRINT_ERR;
+		printf("Error\n");
 	else
 	{
 		if (!check_args(ac, av))
 		{
-			printf("args\n");
-			PRINT_ERR;
+			printf("Error\n");
 			return (-1);
 		}
 		stack_a = create_stack(ac, av);
 		if (!check_stack(stack_a))
 		{
-			printf("stack\n");
-			PRINT_ERR;
+			printf("Error\n");
 			ft_lstclear(&stack_a, free);
 		}
 		else

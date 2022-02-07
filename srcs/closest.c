@@ -6,13 +6,13 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 02:36:25 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/02 02:37:21 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/07 11:05:37 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int		is_the_biggest(t_list *stack, int number)
+int	is_the_biggest(t_list *stack, int number)
 {
 	while (stack)
 	{
@@ -23,7 +23,7 @@ int		is_the_biggest(t_list *stack, int number)
 	return (1);
 }
 
-int		is_the_smallest(t_list *stack, int number)
+int	is_the_smallest(t_list *stack, int number)
 {
 	while (stack)
 	{
@@ -37,7 +37,7 @@ int		is_the_smallest(t_list *stack, int number)
 /**
  *	MODE 1 for closest superior, mode 0 for closest inferior
 **/
-int		get_closest(t_list *stack, int number, int mode)
+int	get_closest(t_list *stack, int number, int mode)
 {
 	int	closest;
 

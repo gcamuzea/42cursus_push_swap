@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 20:17:18 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/01/05 16:58:34 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/07 11:13:24 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	get_sort_state(t_list *stack)
 {
-	int first;
-	int second;
-	int third;
+	int	first;
+	int	second;
+	int	third;
 
 	first = *(int *)stack->content;
 	second = *(int *)stack->next->content;

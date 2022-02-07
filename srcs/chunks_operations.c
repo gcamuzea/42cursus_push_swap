@@ -6,17 +6,17 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 02:07:47 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/03 05:44:15 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/07 11:02:50 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-long long int **create_chunks(int nb_of_chunks, int sizeof_chunk)
+long long int	**create_chunks(int nb_of_chunks, int sizeof_chunk)
 {
-	long long int **chunks;
-	int c;
-	int i;
+	long long int	**chunks;
+	int				c;
+	int				i;
 
 	chunks = malloc(nb_of_chunks * sizeof(long long int *));
 	if (!chunks)
@@ -34,11 +34,12 @@ long long int **create_chunks(int nb_of_chunks, int sizeof_chunk)
 	return (chunks);
 }
 
-void	populate_chunks(long long int **chunks, t_list *stack, int chunk_nb, int chunk_size)
+void	populate_chunks(long long int **chunks, t_list *stack,
+			int chunk_nb, int chunk_size)
 {
-	t_closest closest;
-	int c;
-	int i;
+	t_closest	closest;
+	int			c;
+	int			i;
 
 	c = -1;
 	while (++c < chunk_nb)
@@ -52,7 +53,7 @@ void	populate_chunks(long long int **chunks, t_list *stack, int chunk_nb, int ch
 			{
 				find_closest(&closest, stack, chunks[c - 1][chunk_size - 1]);
 				if (closest.c_superior == chunks[c - 1][chunk_size - 1])
-					return;
+					return ;
 				else
 					chunks[c][i] = closest.c_superior;
 			}
@@ -60,7 +61,7 @@ void	populate_chunks(long long int **chunks, t_list *stack, int chunk_nb, int ch
 			{
 				find_closest(&closest, stack, chunks[c][i - 1]);
 				if (closest.c_superior == chunks[c][i - 1])
-					return;
+					return ;
 				else
 					chunks[c][i] = closest.c_superior;
 			}
@@ -68,7 +69,8 @@ void	populate_chunks(long long int **chunks, t_list *stack, int chunk_nb, int ch
 	}
 }
 
-void	gtfo_my_chunk(long long int *chunk, long long int number, int chunk_size)
+void	gtfo_my_chunk(long long int *chunk, long long int number,
+			int chunk_size)
 {
 	int	c;
 

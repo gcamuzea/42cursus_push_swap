@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 02:31:05 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/03 05:53:43 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/07 11:13:16 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	sort_two(t_list *stack_a, t_list **results)
 void	sort_three(t_list **stack_a, t_list **results)
 {
 	static void	(*state_function[5])(t_list **, t_list **);
-	
+
 	if (is_sorted(*stack_a, 1))
 		return ;
 	state_function[0] = sort_state_0;
@@ -51,21 +51,22 @@ int	get_closest_pos(t_list **stack, int number, int stacksize)
 	}
 	ptr = *stack;
 	if (closest != INT_MAX)
+	{
 		while (*(int *)ptr->content != closest)
 		{
 			closest_pos++;
 			ptr = ptr->next;
-		}
+		}	
+	}
 	else
 		closest_pos = -1;
-	printf("closest = %d on pos %d, stacksize %d\n", closest, closest_pos,stacksize);
 	return (closest_pos);
 }
 
 // NEED -> freeinfo
 void	sort_upto_five(t_list **stack_a, t_list **results, int size)
 {
-	t_list *stack_b;
+	t_list	*stack_b;
 
 	if (is_sorted(*stack_a, 1))
 		return ;

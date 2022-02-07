@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 04:58:06 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/03 05:32:08 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/07 11:06:17 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	get_list_biggest(t_list *stack)
 {
-	int max;
-	
+	int	max;
+
 	max = INT_MIN;
 	while (stack)
 	{
@@ -28,8 +28,8 @@ int	get_list_biggest(t_list *stack)
 
 int	get_list_smallest(t_list *stack)
 {
-	int min;
-	
+	int	min;
+
 	min = INT_MAX;
 	while (stack)
 	{
@@ -40,9 +40,9 @@ int	get_list_smallest(t_list *stack)
 	return (min);
 }
 
-int get_position(t_list *stack, int number)
+int	get_position(t_list *stack, int number)
 {
-	int position;
+	int	position;
 
 	position = 0;
 	while (stack && *(int *)stack->content != number)
@@ -53,7 +53,7 @@ int get_position(t_list *stack, int number)
 	return (position);
 }
 
-int get_rotate_mode(int position, int stack_size)
+int	get_rotate_mode(int position, int stack_size)
 {
 	if (stack_size % 2)
 	{
@@ -68,9 +68,8 @@ int get_rotate_mode(int position, int stack_size)
 /** 
  * mode 1 to start from top, 0 to start from bottom
  */
-int get_nb_of_moves(int list_size, int index, int mode)
+int	get_nb_of_moves(int list_size, int index, int mode)
 {
-	// if (index + 1 < list_size / 2)
 	if (mode)
 		return (index);
 	else

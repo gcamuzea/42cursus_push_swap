@@ -6,31 +6,11 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 12:05:07 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/03 05:44:56 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/07 11:14:56 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	DEBUG__print_lst(t_list *list, char mode)
-{
-	int list_index;
-
-	list_index = 0;
-	if (list)
-	{
-		while (list)
-		{
-			if (mode == 'd')
-				printf("list index %d => %d\n", list_index, *(int *)list->content);
-			else if (mode == 'l')
-				printf("list index %d => %lld\n", list_index, *(long long *)list->content);
-			list = list->next;
-		}
-	}
-	else
-		printf("LIST IS EMPTY\n");
-}
 
 void	print_results(t_list *results)
 {
@@ -49,8 +29,6 @@ void	pretty_print(t_list *stack_a, t_list *stack_b)
 	printf("|_______________________|\n");
 	while (stack_a || stack_b)
 	{
-		// DEBUG__print_lst(stack_a, 'd');
-		// printf("coucou ?\n");
 		printf("| ");
 		if (stack_a)
 		{
