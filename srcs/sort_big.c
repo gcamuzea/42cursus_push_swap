@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 04:53:13 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/08 16:24:59 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/09 12:48:11 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,9 @@ void	sort_upto_whatever(t_list **stack_a, t_list **results)
 		return ;
 	stack_nb = ft_lstsize(*stack_a) / 100 + 1;
 	data = setup_data(*stack_a, results, stack_nb, 100);
-	sort_and_push(data, 46);
+	sort_and_push(data, 100);
 	pull_b(&data->s_a, &data->s_b, data->results);
 	*stack_a = data->s_a;
-	free_chunks(data->chunks, 11);
+	free_chunks(data->chunks, stack_nb);
 	free(data);
 }
