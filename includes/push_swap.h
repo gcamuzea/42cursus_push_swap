@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 15:55:23 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/07 16:34:52 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/08 17:40:54 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ typedef struct s_list_info
 	int				smallest;
 	int				smallest_pos;
 }					t_list_info;
+
+typedef struct s_the_norm_is_a_fucking_joke
+{
+	int				c;
+	int				i;
+}					t_tniaj;
 
 typedef struct s_closest
 {

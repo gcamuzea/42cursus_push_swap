@@ -6,7 +6,7 @@
 /*   By: gucamuze <gucamuze@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/10 12:05:07 by gucamuze          #+#    #+#             */
-/*   Updated: 2022/02/07 11:14:56 by gucamuze         ###   ########.fr       */
+/*   Updated: 2022/02/08 18:07:54 by gucamuze         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	print_results(t_list *results)
 {
 	while (results)
 	{
-		printf("%s\n", (char *)results->content);
+		ft_putstr_fd(results->content, 1);
+		write(1, "\n", 1);
 		results = results->next;
 	}
 }
